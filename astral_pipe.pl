@@ -197,7 +197,7 @@ sub help{
   print "\t\tThe default value is GTRGAMMA.\n\n";
   
   print "\t-v:\tUse this flag to specify the version of astral you wish to run.\n";
-  print "\t\tastral.4.10.2.jar is used by default.\n\n";
+  print "\t\tastral.4.10.2.jar is used by default.  Feature is not yet fully implemented.\n\n";
   
 }
 
