@@ -240,7 +240,7 @@ sub parsecom{
   my $boot = $opts{b} || "0"; # sets the number of bootstraps
   
   my $constrain = $opts{c} || "0"; # sets constraint on number of trees to generate
-  $constrain += 1;
+  #$constrain += 1;
   my $groupsize = $opts{g} || "50"; #sets the number of loci to be grouped together randomly
   
   my $loci = $opts{l} or die "\nNo input file specified\n\n"; # used to specify input file name.  Program will die if no file name is provided.
