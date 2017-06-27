@@ -55,12 +55,12 @@ my( $loci, $map, $proc, $groupsize, $astralonly, $boot, $constrain, $version, $r
 my $mem = &setmem($memory);
 
 # check if the specified astral version is installed
-my $astralpath = system( "which $version | cat" ) ==0 or die "\n$version is not installed: $!\nMake sure you specify the full name of the executable jar file for astral.\nFor example, astral.4.10.2.jar.\n\n";
+my $astralpath = system( "which $version | cat" ) ==0 or die "\n$version is not installed: $!\nMake sure you specify the full name of the executable jar file for astral.\nFor example, astral.4.10.12.jar.\n\n";
 chomp( $astralpath );
 
 # insert a loop to run only astral on previously generated trees and kill program
 if( $astralonly == 1 ){
-	my $astraloutdir = &runastral( $treeoutdir, $astraldir, $astralpath, $boot, $bspath, $version );
+	my $astraloutdir = &runastral( $treeoutdir, $astraldir, $astralpath, $boot, $bspath, $version, $mem );
 	&astralparse( $astraldir, $astraloutdir );
 	die "\n\nExiting program because pipeline was called to run Astral only.\n\n";
 }
@@ -135,7 +135,7 @@ if( $boot > 0 ){
 $boot = ($boot/2);
 
 # run astral
-my $astraloutdir = &runastral( $treeoutdir, $astraldir, $astralpath, $boot, $bspath, $mem );
+my $astraloutdir = &runastral( $treeoutdir, $astraldir, $astralpath, $boot, $bspath, $version, $mem );
 
 # parse astral trees
 &astralparse( $astraldir, $astraloutdir );
@@ -197,7 +197,7 @@ sub help{
   print "\t\tThe default value is GTRGAMMA.\n\n";
   
   print "\t-v:\tUse this flag to specify the version of astral you wish to run.\n";
-  print "\t\tastral.4.10.2.jar is used by default.  Feature is not yet fully implemented.\n\n";
+  print "\t\tastral.4.10.12.jar is used by default.  Feature is not yet fully implemented.\n\n";
   
 }
 
@@ -211,7 +211,7 @@ sub updates{
   print "When submitting bugs please include all input files, options used for the program, and all error messages that were printed to the screen\n\n";
   print "Recent Updates:\n";
   
-  print "\t2016-April-01: \tPipeline was updated to include the -v flag.\n\t\t\t\tThis allows you to use a version of astral other than the one that is hard-coded into the pipeline (version 4.10.2)\n\t\t\t\tWARNING: Not fully implemented yet.\n\n";
+  print "\t2016-April-01: \tPipeline was updated to include the -v flag.\n\t\t\t\tThis allows you to use a version of astral other than the one that is hard-coded into the pipeline (version 4.10.12)\n\t\t\t\tWARNING: Not fully implemented yet.\n\n";
   
 }
 
@@ -249,7 +249,7 @@ sub parsecom{
   
   my $proc = $opts{p} or die "\nNumber of processors not specified.\n\n"; # used to specify number of processors for parallel steps
   
-  my $version = $opts{v} || "astral.4.10.2.jar"; # sets the version of astral to be used.  Default is astral.4.10.2.
+  my $version = $opts{v} || "astral.4.10.12.jar"; # sets the version of astral to be used.  Default is astral.4.10.12.
   
   my $memory = $opts{M} || "4"; # sets the amount of memory available to ASTRAL
 
@@ -688,9 +688,9 @@ sub runastral{
 	
 	# system call to run astral
 if( $boot > 0 ){
-		system( "java $mem -jar /home/mussmann/local/src/ASTRAL/Astral/astral.4.10.2.jar -i $treeoutdir -o $astraloutdir -b $bspath -r $boot -g" ); # == 0 or die "ERROR: astral exited with non-zero status: $?";
+		system( "java $mem -jar /home/mussmann/local/src/ASTRAL/astral.4.10.12.jar -i $treeoutdir -o $astraloutdir -b $bspath -r $boot -g" ); # == 0 or die "ERROR: astral exited with non-zero status: $?";
 	}else{
-		system( "java $mem -jar /home/mussmann/local/src/ASTRAL/Astral/astral.4.10.2.jar -i $treeoutdir -o $astraloutdir" ); # == 0 or die "ERROR: astral exited with non-zero status: $?";
+		system( "java $mem -jar /home/mussmann/local/src/ASTRAL/astral.4.10.12.jar -i $treeoutdir -o $astraloutdir" ); # == 0 or die "ERROR: astral exited with non-zero status: $?";
 	}
 	
 	return $astraloutdir;
